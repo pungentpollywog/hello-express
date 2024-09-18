@@ -1,0 +1,15 @@
+{
+  "name": "hello-express",
+  "version": "1.0.0",
+  "description": "hello world express app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "Chris Demaria",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
