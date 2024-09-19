@@ -5,7 +5,7 @@ const { randomUUID } = await import('node:crypto');
 
 const router = express.Router();
 
-router.all('/', (req, res, next) => {
+const getAllUsers = (req, res, next) => {
   console.log('For all endpoints, pull all users.');
   getUsers()
     .then((users) => {
@@ -14,24 +14,27 @@ router.all('/', (req, res, next) => {
     .finally(() => {
       next();
     });
-});
+};
+
+router.all('/', getAllUsers);
+router.all('/:id', getAllUsers);
 
 router.get('/', (req, res) => {
   console.log('retrieve all users.');
-  res.send(req.users ?? []);
+  res.send(JSON.stringify(req.users ?? []));
 });
 
 router.get('/:id', (req, res) => {
   console.log('retrieve user with id:', req.params.id);
   const user = req.users?.find((user) => user.id === req.params.id);
-  res.send(user ?? {});
+  console.log('found user', user);
+  res.send(JSON.stringify(user ?? {}));
 });
 
 router.post('/', (req, res) => {
   const id = randomUUID();
   const user = { ...req.body, id: id };
   console.log('add user:', JSON.stringify(user));
-  console.log('users:', req.users);
   req.users = [...req.users, user];
   try {
     setUsers(req.users);
